@@ -31,6 +31,7 @@ class API:
     CourseList = 'https://ke.qq.com/cgi-proxy/user/user_center/get_plan_list'
     VideoRec = 'https://ke.qq.com/cgi-proxy/rec_video/describe_rec_video'
     DefaultAccount = 'https://ke.qq.com/cgi-proxy/accbind/get_default_account'
+    DescribeRecVideo = 'https://ke.qq.com/cgi-proxy/rec_video/describe_rec_video'
 
 
 DEFAULT_HEADERS = {'referer': 'https://ke.qq.com/webcourse/'}
@@ -379,3 +380,21 @@ def get_uin():
         return response.get('result').get('tiny_id')
     return input('请输入你的QQ号 / 微信uin(回车结束)：')
 
+
+def describe_rec_video(url):
+    params = parse_qs(url.replace(API.DescribeRecVideo+"?",""))
+    
+    course_id = params.get('course_id')[0]
+    term_id = params.get('term_id')[0]
+    file_id = params.get('file_id')[0]
+    response = requests.get(url,
+                            cookies=load_json_cookies(),
+                            headers=DEFAULT_HEADERS,).json()
+    if response:
+        info = response.get('result').get('rec_video_info')
+        m3_url = info.get('infos')[0].get('url')
+        ts_url = m3_url.replace('.m3u8', '.ts')
+        key_url_only = get_key_url_from_m3u8(m3_url)
+        key_token = get_token_for_key_url(term_id, course_id)
+        key_url = key_url_only + '&token=' + key_token
+        return ts_url, key_url
