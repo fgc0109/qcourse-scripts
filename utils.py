@@ -273,13 +273,17 @@ def get_token_for_key_url(term_id, cid):
                 CURRENT_USER['ext'] = cookies.get('uid_a2')
                 CURRENT_USER['appid'] = cookies.get('uid_appid')
                 CURRENT_USER['uid_type'] = cookies.get('uid_type')
+                CURRENT_USER['uid_origin_uid_type'] = cookies.get('uid_origin_uid_type')
+                CURRENT_USER['uid_origin_auth_type'] = cookies.get('uid_origin_auth_type')
                 str_token = 'uin={uin};skey=;pskey=;plskey=;ext={uid_a2};uid_appid={appid};' \
-                            'uid_type={uid_type};uid_origin_uid_type=2;uid_origin_auth_type=2;' \
+                            'uid_type={uid_type};uid_origin_uid_type={uid_origin_uid_type};uid_origin_auth_type={uid_origin_auth_type};' \
                             'cid={cid};term_id={term_id};vod_type=0;platform=3'\
                     .format(uin=uin,
                             uid_a2=CURRENT_USER.get('ext'),
                             appid=CURRENT_USER.get('appid'),
                             uid_type=CURRENT_USER.get('uid_type'),
+                            uid_origin_uid_type=CURRENT_USER.get('uid_origin_uid_type'),
+                            uid_origin_auth_type=CURRENT_USER.get('uid_origin_auth_type'),
                             cid=cid,
                             term_id=term_id)
             else:
