@@ -1,5 +1,7 @@
+/qcourse-venv/
 cookies.json
 /__pycache__/
 /.idea/
 /courses/
 log.log
+
