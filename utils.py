@@ -87,6 +87,15 @@ def get_chapters_from_file(filename, term_index):
     )
     return chapters
 
+def get_chapter_info_by_video(chapters, video_id):
+    for chapter in chapters:
+        # if chapter.get('task_info') == term_id:
+        videos = chapter.get('task_info')[0].get('resid_list').replace("&quot;","\"")
+        v2 = json.loads(videos)
+        # print(v2)
+        for video in v2:
+            if int(video) == video_id:
+                return chapter
 
 def get_chapters(term):
     return term.get('chapter_info')[0].get('sub_info')
